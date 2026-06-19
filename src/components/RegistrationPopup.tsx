@@ -5,6 +5,7 @@ import { X, ArrowRight, Check } from "lucide-react";
 import { workshopRegistrationSchema } from "@/lib/validations";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { readFunctionError } from "@/lib/functionError";
 
 interface RegistrationPopupProps {
   isOpen: boolean;
@@ -89,10 +90,10 @@ const RegistrationPopup = ({ isOpen, onClose }: RegistrationPopupProps) => {
       if (validateForm()) {
         setIsSubmitting(true);
         try {
-          // Insert registration to Supabase with status "form_filled"
-          const { data, error } = await supabase
-            .from('workshop_registrations')
-            .insert({
+          // Create the registration via the server (validates + rate limits).
+          const { data, error } = await supabase.functions.invoke('register', {
+            body: {
+              type: 'workshop',
               name: formData.name,
               mobile: formData.mobile,
               email: formData.email,
@@ -100,14 +101,13 @@ const RegistrationPopup = ({ isOpen, onClose }: RegistrationPopupProps) => {
               state: formData.state,
               country: formData.country,
               status: formData.status,
-              registration_status: 'form_filled',
-              registration_date: new Date().toISOString()
-            })
-            .select('id')
-            .single();
-          
-          if (error) throw error;
-          setRegistrationId(data.id);
+            },
+          });
+          if (error || !data?.registrationId) {
+            toast.error(await readFunctionError(error, "Failed to save registration. Please try again."));
+            return;
+          }
+          setRegistrationId(data.registrationId);
           setStep(2);
         } catch (error) {
           console.error('Registration error:', error);
@@ -122,77 +122,28 @@ const RegistrationPopup = ({ isOpen, onClose }: RegistrationPopupProps) => {
     }
   };
 
-  const handleCompleteWithAddOns = async () => {
-    if (!registrationId || isSubmitting) return;
-    setIsSubmitting(true);
-    
-    try {
-      const selectedAddOnsList = addOns.filter(a => selectedAddOns.includes(a.id));
-      const totalPrice = selectedAddOnsList.reduce((sum, a) => sum + a.offerPrice, 0);
-      
-      // Update registration with add-ons
-      const { error } = await supabase
-        .from('workshop_registrations')
-        .update({
-          addons_selected: selectedAddOnsList.map(a => ({ name: a.name, price: a.offerPrice })),
-          addons_total_price: totalPrice,
-          addons_selected_date: new Date().toISOString(),
-          registration_status: 'addons_selected'
-        })
-        .eq('id', registrationId);
-      
-      if (error) throw error;
-      
-      // Store registration ID and navigate to payment
-      localStorage.setItem('workshopRegistration', JSON.stringify({
-        id: registrationId,
-        type: 'workshop',
-        addonsTotal: totalPrice,
-        workshopFee: 99
-      }));
-      onClose();
-      navigate('/payment?type=workshop');
-    } catch (error) {
-      console.error('Update error:', error);
-      toast.error("Failed to update registration. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+  // The selected add-ons are persisted server-side by the create-order Edge
+  // Function (which is the authority on pricing). Here we only carry the
+  // chosen add-on ids forward to the payment page for display + the order call.
+  const goToPayment = (addonIds: number[]) => {
+    if (!registrationId) return;
+    const selectedAddOnsList = addOns.filter(a => addonIds.includes(a.id));
+    const addonsTotal = selectedAddOnsList.reduce((sum, a) => sum + a.offerPrice, 0);
+
+    localStorage.setItem('workshopRegistration', JSON.stringify({
+      id: registrationId,
+      type: 'workshop',
+      addonIds,
+      addonsTotal,   // for display only; server recomputes the charged amount
+      workshopFee: 99,
+    }));
+    onClose();
+    navigate('/payment?type=workshop');
   };
 
-  const handleSkipAddOns = async () => {
-    if (!registrationId || isSubmitting) return;
-    setIsSubmitting(true);
-    
-    try {
-      // Update with no add-ons
-      const { error } = await supabase
-        .from('workshop_registrations')
-        .update({
-          addons_selected: [],
-          addons_total_price: 0,
-          addons_selected_date: new Date().toISOString(),
-          registration_status: 'addons_selected'
-        })
-        .eq('id', registrationId);
-      
-      if (error) throw error;
-      
-      localStorage.setItem('workshopRegistration', JSON.stringify({
-        id: registrationId,
-        type: 'workshop',
-        addonsTotal: 0,
-        workshopFee: 99
-      }));
-      onClose();
-      navigate('/payment?type=workshop');
-    } catch (error) {
-      console.error('Update error:', error);
-      toast.error("Failed to update registration. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const handleCompleteWithAddOns = () => goToPayment(selectedAddOns);
+
+  const handleSkipAddOns = () => goToPayment([]);
 
   const resetForm = () => {
     setFormData({ name: "", mobile: "", email: "", city: "", state: "", country: "India", status: "" });

@@ -1,1 +1,17 @@
 project_id = "juhudbbhbrajfrgiyrwv"
+
+# Anonymous registration form -> no Supabase user, so no JWT.
+[functions.register]
+verify_jwt = false
+
+# Called by the browser before a Supabase login exists.
+[functions.create-order]
+verify_jwt = false
+
+# Client-facing payment confirmation fallback.
+[functions.verify-payment]
+verify_jwt = false
+
+# Called by Razorpay (no Supabase JWT). Auth is the HMAC signature instead.
+[functions.razorpay-webhook]
+verify_jwt = false

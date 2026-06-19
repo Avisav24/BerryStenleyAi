@@ -23,13 +23,16 @@ export type Database = {
           created_at: string
           due_amount: number | null
           email: string
+          expected_amount: number | null
           id: string
           mobile: string
           name: string
           payment_date: string | null
           payment_id: string | null
           payment_mode: string | null
+          payment_option: string | null
           payment_status: string | null
+          razorpay_order_id: string | null
           registration_date: string | null
           registration_status: string | null
           state: string
@@ -44,13 +47,16 @@ export type Database = {
           created_at?: string
           due_amount?: number | null
           email: string
+          expected_amount?: number | null
           id?: string
           mobile: string
           name: string
           payment_date?: string | null
           payment_id?: string | null
           payment_mode?: string | null
+          payment_option?: string | null
           payment_status?: string | null
+          razorpay_order_id?: string | null
           registration_date?: string | null
           registration_status?: string | null
           state: string
@@ -65,13 +71,16 @@ export type Database = {
           created_at?: string
           due_amount?: number | null
           email?: string
+          expected_amount?: number | null
           id?: string
           mobile?: string
           name?: string
           payment_date?: string | null
           payment_id?: string | null
           payment_mode?: string | null
+          payment_option?: string | null
           payment_status?: string | null
+          razorpay_order_id?: string | null
           registration_date?: string | null
           registration_status?: string | null
           state?: string
@@ -110,6 +119,7 @@ export type Database = {
           country: string
           created_at: string
           email: string
+          expected_amount: number | null
           id: string
           mobile: string
           name: string
@@ -117,6 +127,7 @@ export type Database = {
           payment_id: string | null
           payment_mode: string | null
           payment_status: string | null
+          razorpay_order_id: string | null
           registration_date: string | null
           registration_status: string | null
           state: string
@@ -131,6 +142,7 @@ export type Database = {
           country: string
           created_at?: string
           email: string
+          expected_amount?: number | null
           id?: string
           mobile: string
           name: string
@@ -138,6 +150,7 @@ export type Database = {
           payment_id?: string | null
           payment_mode?: string | null
           payment_status?: string | null
+          razorpay_order_id?: string | null
           registration_date?: string | null
           registration_status?: string | null
           state: string
@@ -152,6 +165,7 @@ export type Database = {
           country?: string
           created_at?: string
           email?: string
+          expected_amount?: number | null
           id?: string
           mobile?: string
           name?: string
@@ -159,11 +173,99 @@ export type Database = {
           payment_id?: string | null
           payment_mode?: string | null
           payment_status?: string | null
+          razorpay_order_id?: string | null
           registration_date?: string | null
           registration_status?: string | null
           state?: string
           status?: string
           total_amount_paid?: number | null
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          benefit: string
+          certification: string
+          certification_color: string
+          created_at: string
+          discounted_fee: number
+          duration: string
+          id: string
+          is_active: boolean
+          original_fee: number
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          benefit: string
+          certification: string
+          certification_color: string
+          created_at?: string
+          discounted_fee: number
+          duration: string
+          id: string
+          is_active?: boolean
+          original_fee: number
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          benefit?: string
+          certification?: string
+          certification_color?: string
+          created_at?: string
+          discounted_fee?: number
+          duration?: string
+          id?: string
+          is_active?: boolean
+          original_fee?: number
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      addons: {
+        Row: {
+          created_at: string
+          id: number
+          is_active: boolean
+          name: string
+          offer_price: number
+          original_price: number
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          is_active?: boolean
+          name: string
+          offer_price: number
+          original_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_active?: boolean
+          name?: string
+          offer_price?: number
+          original_price?: number
+        }
+        Relationships: []
+      }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }

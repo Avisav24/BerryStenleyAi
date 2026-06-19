@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Globe, MapPin, Clock, Linkedin, MessageCircle, Shield } from "lucide-react";
+import { Phone, Mail, Globe, MapPin, Clock, Linkedin, MessageCircle, Shield, FileText } from "lucide-react";
 import Logo from "./Logo";
 import AdminLoginPopup from "./AdminLoginPopup";
 import { Button } from "@/components/ui/button";
@@ -71,12 +71,22 @@ const Footer = () => {
           {/* Pricing & Social */}
           <div className="text-left">
             <h4 className="font-display font-semibold text-foreground mb-4 text-sm uppercase tracking-wider text-muted-foreground">Pricing</h4>
-            <p className="text-sm text-muted-foreground mb-6">
+            <p className="text-sm text-muted-foreground mb-4">
               Workshop: <span className="text-primary font-semibold">₹99 + GST</span>
               <br />
               Add-ons priced separately
             </p>
-            
+
+            <a
+              href="https://drive.google.com/drive/folders/1lPFbj0lk-sWwnyCJJAUeZv_lNa6X25hY?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-6"
+            >
+              <FileText className="h-4 w-4 flex-shrink-0" />
+              Brochure / Syllabus
+            </a>
+
             <h4 className="font-display font-semibold text-foreground mb-4 text-sm uppercase tracking-wider text-muted-foreground">Follow Us</h4>
             <div className="flex gap-3">
               <a

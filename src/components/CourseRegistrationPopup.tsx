@@ -10,6 +10,7 @@ import logoBerryStenley from "@/assets/logo-berry-stenley.png";
 import { courseRegistrationSchema } from "@/lib/validations";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { readFunctionError } from "@/lib/functionError";
 
 // Helper function to parse Indian currency format to number
 const parseFee = (fee: string): number => {
@@ -215,13 +216,14 @@ const CourseRegistrationPopup = ({ isOpen, onClose, selectedCourse }: CourseRegi
       setIsSubmitting(true);
       try {
         const paymentAmount = calculatePercentage(course.discountedFee, parseInt(paymentOption));
-        const courseFee = parseFee(course.discountedFee);
-        const payNow = parseFee(paymentAmount);
-        
-        // Insert enrollment to Supabase
-        const { data, error } = await supabase
-          .from('course_enrollments')
-          .insert({
+
+        // Create the enrollment via the server (validates + rate limits + sets
+        // the authoritative course fee). The exact charge is computed in
+        // create-order; paymentAmount here is for display only.
+        const { data, error } = await supabase.functions.invoke('register', {
+          body: {
+            type: 'course',
+            courseId: course.id,
             name: formData.fullName,
             mobile: formData.mobile,
             email: formData.email,
@@ -229,21 +231,17 @@ const CourseRegistrationPopup = ({ isOpen, onClose, selectedCourse }: CourseRegi
             state: formData.state,
             country: formData.country,
             status: formData.status,
-            course_name: course.title,
-            course_fee: courseFee,
-            registration_status: 'form_filled',
-            registration_date: new Date().toISOString(),
-            due_amount: courseFee - payNow
-          })
-          .select('id')
-          .single();
-        
-        if (error) throw error;
-        
+          },
+        });
+        if (error || !data?.registrationId) {
+          toast.error(await readFunctionError(error, "Failed to save enrollment. Please try again."));
+          return;
+        }
+
         // Store for payment page
-        localStorage.setItem('courseRegistration', JSON.stringify({ 
+        localStorage.setItem('courseRegistration', JSON.stringify({
           ...formData,
-          enrollmentId: data.id,
+          enrollmentId: data.registrationId,
           course,
           paymentOption,
           paymentAmount

@@ -33,9 +33,27 @@ interface CourseRegistrationData {
 interface WorkshopRegistrationData {
   id: string;
   type: 'workshop';
+  addonIds: number[];
   addonsTotal: number;
   workshopFee: number;
 }
+
+declare global {
+  interface Window {
+    Razorpay: new (options: Record<string, unknown>) => { open: () => void };
+  }
+}
+
+// Load the Razorpay Checkout script once.
+const loadRazorpayScript = (): Promise<boolean> =>
+  new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -67,59 +85,84 @@ const Payment = () => {
   const handleConfirmPayment = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
-    
-    // Payment gateway integration pending - for now simulate payment
-    const confirmed = window.confirm(
-      'You will be redirected to our secure payment gateway.\n\n' +
-      'Payment gateway integration is being configured.\n' +
-      'Please contact aiacademy@berrystenley.com for manual payment processing.'
-    );
-    
-    if (confirmed) {
-      try {
-        // Simulate successful payment - update database
-        const mockPaymentId = 'PAY_' + Date.now();
-        
-        if (type === 'workshop' && workshopData) {
-          const totalAmount = workshopData.workshopFee + workshopData.addonsTotal;
-          await supabase
-            .from('workshop_registrations')
-            .update({
-              payment_status: 'paid',
-              payment_id: mockPaymentId,
-              payment_mode: 'online',
-              total_amount_paid: totalAmount,
-              payment_date: new Date().toISOString()
-            })
-            .eq('id', workshopData.id);
-          
-          localStorage.removeItem('workshopRegistration');
-          toast.success("Workshop registration completed successfully!");
-        } else if (type === 'course' && courseData) {
-          const payAmount = parseInt(courseData.paymentAmount.replace(/[₹,]/g, ''));
-          await supabase
-            .from('course_enrollments')
-            .update({
-              payment_status: 'paid',
-              payment_id: mockPaymentId,
-              payment_mode: 'online',
-              total_amount_paid: payAmount,
-              payment_date: new Date().toISOString()
-            })
-            .eq('id', courseData.enrollmentId);
-          
-          localStorage.removeItem('courseRegistration');
-          toast.success("Course enrollment completed successfully!");
-        }
-        
-        navigate('/');
-      } catch (error) {
-        console.error('Payment update error:', error);
-        toast.error("Failed to update payment status. Please contact support.");
+
+    try {
+      const scriptReady = await loadRazorpayScript();
+      if (!scriptReady) {
+        toast.error("Could not load the payment gateway. Please retry.");
+        return;
       }
+
+      // Ask the server to recompute the amount and create a Razorpay order.
+      // The browser never decides the price.
+      const orderRequest =
+        type === 'workshop' && workshopData
+          ? {
+              type: 'workshop' as const,
+              registrationId: workshopData.id,
+              addonIds: workshopData.addonIds ?? [],
+            }
+          : courseData
+          ? {
+              type: 'course' as const,
+              registrationId: courseData.enrollmentId,
+              courseId: courseData.course.id,
+              paymentOption: courseData.paymentOption,
+            }
+          : null;
+
+      if (!orderRequest) {
+        toast.error("Missing registration details. Please start again.");
+        navigate('/');
+        return;
+      }
+
+      const { data: order, error } = await supabase.functions.invoke('create-order', {
+        body: orderRequest,
+      });
+      if (error || !order?.orderId) {
+        throw error ?? new Error('Order creation failed');
+      }
+
+      const rzp = new window.Razorpay({
+        key: order.keyId,
+        order_id: order.orderId,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Berry Stenley AI Academy',
+        description: type === 'workshop' ? 'Workshop Registration' : 'Course Enrollment',
+        prefill: {
+          name: type === 'workshop' ? undefined : courseData?.fullName,
+          email: type === 'workshop' ? undefined : courseData?.email,
+          contact: type === 'workshop' ? undefined : courseData?.mobile,
+        },
+        theme: { color: '#000000' },
+        // Payment is confirmed server-side. On return we ask verify-payment to
+        // check Razorpay directly (fallback to the webhook); we never mark the
+        // row paid from the browser.
+        handler: async () => {
+          const { data: verify } = await supabase.functions.invoke('verify-payment', {
+            body: { orderId: order.orderId },
+          });
+          localStorage.removeItem(type === 'workshop' ? 'workshopRegistration' : 'courseRegistration');
+          if (verify?.status === 'paid') {
+            toast.success("Payment confirmed! Check your email for the details.");
+          } else {
+            toast.success("Payment received! We're confirming it and will email your details shortly.");
+          }
+          navigate('/');
+        },
+        modal: {
+          ondismiss: () => setIsProcessing(false),
+        },
+      });
+      rzp.open();
+    } catch (err) {
+      console.error('Payment error:', err);
+      toast.error("Could not start payment. Please try again or contact support.");
+    } finally {
+      setIsProcessing(false);
     }
-    
-    setIsProcessing(false);
   };
 
   if (type === 'workshop') {
