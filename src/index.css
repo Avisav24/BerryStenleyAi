@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Colors - Enterprise Light Mode */
+    --background: 0 0% 100%; /* Canvas #FFFFFF */
+    --foreground: 0 0% 10%; /* Ink #1A1A1A */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 220 98% 43%; /* Primary Blue #024AD8 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 97%; /* Cloud #F7F7F7 */
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 0 0% 97%; /* Cloud #F7F7F7 */
+    --muted-foreground: 0 0% 39%; /* Graphite #636363 */
+
+    --accent: 0 0% 91%; /* Fog #E8E8E8 */
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 91%; /* Fog #E8E8E8 */
+    --input: 0 0% 91%;
+    --ring: 220 98% 43%;
+
+    --radius: 0.25rem; /* 4px base radius for buttons/inputs */
+
+    /* Typography scale */
+    --font-display: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  .dark {
+    /* Kept for Shadcn compatibility, but the enterprise app is primarily light */
+    --background: 0 0% 10%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 220 98% 43%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 220 98% 43%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+}
+
+@layer components {
+  /* Utility classes for typography scale */
+  .text-hero {
+    @apply text-[72px] leading-tight font-medium;
+  }
+  .text-page-title {
+    @apply text-[56px] leading-tight font-medium;
+  }
+  .text-section-title {
+    @apply text-[44px] leading-tight font-medium;
+  }
+  .text-card-title {
+    @apply text-[24px] leading-snug font-medium;
+  }
+  .text-subheading {
+    @apply text-[20px] leading-snug font-medium;
+  }
+  .text-body {
+    @apply text-[16px] leading-normal font-normal;
+  }
+  .text-caption {
+    @apply text-[14px] leading-normal font-normal;
+  }
+  .text-fine-print {
+    @apply text-[12px] leading-normal font-normal;
+  }
+
+  /* Structural elements */
+  .enterprise-card {
+    @apply bg-white rounded-2xl border border-border/50 shadow-card transition-shadow duration-200;
+  }
+  
+  .enterprise-card:hover {
+    @apply shadow-modal;
+  }
+
+  .enterprise-section {
+    @apply py-12 md:py-20;
+  }
+  
+  .enterprise-container {
+    @apply container mx-auto px-4 md:px-6 lg:px-8 max-w-[1366px];
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
