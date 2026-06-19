@@ -7,9 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
   { value: 75000, suffix: "+", label: "Students Trained" },
-  { value: 45000, suffix: "+", label: "Successful Transitions" },
-  { value: 22, suffix: "+", label: "Countries Reached" },
-  { value: 4.9, suffix: "/5", label: "Global Rating", isFloat: true },
+  { value: 45000, suffix: "+", label: "Successful Professionals" },
+  { value: 22, suffix: "+", label: "Countries" },
+  { value: 4.9, suffix: "/5", label: "Google Rating", isFloat: true },
 ];
 
 const SocialProofSection = () => {

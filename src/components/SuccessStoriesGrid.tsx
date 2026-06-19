@@ -7,18 +7,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 const stories = [
   {
-    category: "Entrepreneurs Scaling",
-    quote: "We replaced our entire legacy CRM workflow with AI agents. It didn't just save money—it completely changed how fast we can scale.",
-    author: "Elena R.",
-    role: "Founder & CEO",
+    category: "Software Engineer",
+    quote: "This AI workshop completely transformed my career. I got promoted within 3 months of completing the course!",
+    author: "Rahul Sharma",
+    role: "Software Engineer",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop"
   },
   {
-    category: "Corporate AI Usage",
-    quote: "I saved 15 hours a week using the exact automations taught here. My promotion came two months later.",
-    author: "Sarah J.",
-    role: "Product Manager",
+    category: "Business Owner",
+    quote: "My business revenue increased by 300% after implementing AI tools I learned here. Best investment ever!",
+    author: "Priya Patel",
+    role: "Business Owner",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    category: "Student",
+    quote: "Cleared my competitive exams with AI-powered study techniques. This course is a game-changer!",
+    author: "Amit Kumar",
+    role: "Student",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800&auto=format&fit=crop"
   }
 ];
 
