@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Download, Clock, Flame, MapPin, Users } from "lucide-react";
+import { ArrowRight, Flame, Clock, Users, ChevronRight, PlayCircle } from "lucide-react";
 
 interface HeroSectionProps {
   onRegisterClick?: () => void;
@@ -17,146 +17,124 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
   }, []);
 
   return (
-    <section className="pt-32 pb-20 bg-background border-b border-border">
-      <div className="container mx-auto px-6 max-w-[1366px]">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Urgency Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-[8px] bg-secondary border border-border mb-8">
-            <Flame className="h-4 w-4 text-destructive" />
-            <span className="text-sm font-medium text-foreground tracking-tight">
-              Limited Seats • Live + Online AI Workshop • Enroll Today
-            </span>
-          </div>
+    <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-brand-cloud overflow-hidden border-b border-border">
+      {/* Subtle Background Elements */}
+      <div className="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/3 w-[600px] h-[600px] rounded-full bg-blue-400/5 blur-[100px] pointer-events-none" />
 
-          {/* Headline */}
-          <h1 className="text-page-title mb-6 tracking-tight text-foreground">
-            Master Practical AI Skills.<br/>
-            Future-Proof Your Career.
-          </h1>
+      <div className="enterprise-container relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          <p className="text-subheading text-muted-foreground mb-12 max-w-2xl mx-auto">
-            The most comprehensive AI certification program for students and professionals. Automate workflows, boost productivity, and unlock new opportunities.
-          </p>
-
-          {/* Three Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="enterprise-card p-6 text-left">
-              <div className="w-12 h-12 mb-4 rounded-[8px] bg-secondary flex items-center justify-center">
-                <Flame className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-body font-semibold text-foreground mb-2">
-                Become an AI Champion
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Secure your future in the evolving job market.
-              </p>
+          {/* Left Column: Copy & CTA */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left">
+            
+            {/* Premium Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-border/60 shadow-sm mb-8 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Live Online Workshop • Enroll Today
+              </span>
             </div>
 
-            <div className="enterprise-card p-6 text-left">
-              <div className="w-12 h-12 mb-4 rounded-[8px] bg-secondary flex items-center justify-center">
-                <Users className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-body font-semibold text-foreground mb-2">
-                Career Transformation
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                The fastest certification for professionals.
-              </p>
+            {/* Massive Headline */}
+            <h1 className="text-hero text-brand-ink mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              Master Practical AI. <br className="hidden lg:block" />
+              <span className="text-muted-foreground">Future-Proof Your Career.</span>
+            </h1>
+            
+            {/* Supporting Copy */}
+            <p className="text-subheading text-muted-foreground mb-10 max-w-xl animate-slide-up" style={{ animationDelay: '0.3s' }}>
+              The definitive AI certification program. Automate workflows, multiply productivity, and unlock new career opportunities without writing code.
+            </p>
+
+            {/* CTA Group */}
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-10 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <Button 
+                size="xl" 
+                className="w-full sm:w-auto px-8 shadow-modal bg-brand-ink text-white hover:bg-brand-charcoal rounded-[8px]" 
+                onClick={onRegisterClick}
+              >
+                <span>Join the Workshop — ₹99</span>
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="xl" 
+                className="w-full sm:w-auto px-8 rounded-[8px] bg-white border-border"
+              >
+                View Curriculum
+                <ChevronRight className="ml-2 h-4 w-4 text-muted-foreground" />
+              </Button>
             </div>
 
-            <div className="enterprise-card p-6 text-left">
-              <div className="w-12 h-12 mb-4 rounded-[8px] bg-secondary flex items-center justify-center">
-                <Clock className="h-6 w-6 text-primary" />
+            {/* Social Proof Row */}
+            <div className="flex items-center gap-4 animate-slide-up" style={{ animationDelay: '0.5s' }}>
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-secondary overflow-hidden shrink-0">
+                    <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="Student" className="w-full h-full object-cover" />
+                  </div>
+                ))}
               </div>
-              <h3 className="text-body font-semibold text-foreground mb-2">
-                Master 400+ Skills
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Multiply your productivity and earn a higher salary.
-              </p>
+              <div className="text-sm text-brand-graphite font-medium">
+                Join <strong className="text-brand-ink">10,000+</strong> professionals <br className="hidden sm:block" />
+                transitioning to AI-first roles.
+              </div>
             </div>
+            
           </div>
 
-          {/* Welcome Video Card */}
-          <div className="mb-12">
-            <div className="enterprise-card p-6 md:p-8 max-w-3xl mx-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-body font-semibold text-foreground">
-                  Program Overview
-                </h4>
-                <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Video</span>
-              </div>
-              <div className="relative aspect-video rounded-[8px] overflow-hidden bg-muted border border-border">
+          {/* Right Column: Premium Visual Composition */}
+          <div className="lg:col-span-6 relative animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            
+            {/* Main Visual Frame */}
+            <div className="relative rounded-[16px] bg-white border border-border/50 p-2 shadow-modal">
+              <div className="relative rounded-[12px] overflow-hidden bg-brand-charcoal aspect-[4/3] sm:aspect-video lg:aspect-[4/3] group">
+                {/* Video Player Placeholder */}
                 <video 
-                  className="w-full h-full object-cover"
-                  controls
+                  className="w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
                   poster="/videos/promo-video.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                 >
                   <source src="/videos/promo-video.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
                 </video>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button 
-              size="lg" 
-              className="w-full sm:w-auto rounded-[4px] px-8 shadow-sm" 
-              onClick={onRegisterClick}
-            >
-              <span>Register Now — ₹99</span>
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-[4px] px-8">
-              <Download className="mr-2 h-4 w-4" />
-              <span>Download Brochure</span>
-            </Button>
-          </div>
-
-          {/* Guarantee */}
-          <p className="text-sm text-muted-foreground font-medium mb-8">
-            Money Back Guarantee: Full refund if not satisfied. No questions asked.
-          </p>
-
-          {/* FOMO Proof */}
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <span><strong className="text-primary">{seatsLeft}</strong> seats remaining</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <Flame className="h-4 w-4 text-muted-foreground" />
-              <span>Price increases soon</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <span>Early-bird bonuses available</span>
-            </div>
-          </div>
-
-          {/* Seat Counter */}
-          <div className="inline-block p-6 rounded-[16px] bg-secondary border border-border max-w-md w-full">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-[8px] bg-white flex items-center justify-center border border-border shrink-0">
-                <Users className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-left w-full">
-                <div className="flex justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                  <span>Capacity</span>
-                  <span>{seatsLeft} Left</span>
-                </div>
-                <div className="w-full h-2 bg-white border border-border rounded-[4px] overflow-hidden">
-                  <div 
-                    className="h-full bg-primary" 
-                    style={{ width: `${(1000 - seatsLeft) / 1000 * 100}%` }} 
-                  />
+                
+                {/* Overlay Play Button */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors group-hover:bg-transparent">
+                  <div className="w-16 h-16 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-110 cursor-pointer">
+                    <PlayCircle className="w-8 h-8 text-brand-ink ml-1" />
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Floating Element 1: Seats Alert */}
+            <div className="absolute -bottom-6 -left-6 sm:-left-12 bg-white rounded-[12px] p-4 shadow-card border border-border/50 flex items-center gap-4 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                <Flame className="w-5 h-5 text-red-500" />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Capacity</p>
+                <p className="text-sm font-medium text-brand-ink"><strong className="text-red-600">{seatsLeft}</strong> Seats Remaining</p>
+              </div>
+            </div>
+
+            {/* Floating Element 2: Value Prop */}
+            <div className="absolute -top-6 -right-6 sm:-right-8 bg-white rounded-[12px] p-4 shadow-card border border-border/50 flex items-center gap-4 animate-fade-in" style={{ animationDelay: '1s' }}>
+              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                <Clock className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Fast-Track</p>
+                <p className="text-sm font-medium text-brand-ink">3-Hour Mastery</p>
+              </div>
+            </div>
+
           </div>
-          
+
         </div>
       </div>
     </section>

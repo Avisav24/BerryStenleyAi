@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Download, Gift, AlertCircle } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 interface FinalCTASectionProps {
   onRegisterClick?: () => void;
@@ -7,44 +7,51 @@ interface FinalCTASectionProps {
 
 const FinalCTASection = ({ onRegisterClick }: FinalCTASectionProps) => {
   return (
-    <section className="py-20 bg-background border-b border-border">
-      <div className="container mx-auto px-6 max-w-[1366px]">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-[4px] bg-[#FEF2F2] border border-[#FECACA] mb-8">
-            <AlertCircle className="h-4 w-4 text-[#DC2626]" />
-            <span className="text-sm font-semibold uppercase tracking-wider text-[#DC2626]">Final Call to Action</span>
-          </div>
+    <section className="py-32 px-6 bg-brand-cloud">
+      <div className="container mx-auto max-w-[1366px]">
+        
+        <div className="relative bg-primary rounded-[24px] overflow-hidden shadow-2xl">
+          {/* Subtle Abstract Shapes */}
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[800px] h-[800px] rounded-full bg-white/5 blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-[500px] h-[500px] rounded-full bg-blue-400/20 blur-[60px] pointer-events-none" />
 
-          <h2 className="text-page-title tracking-tight text-foreground mb-6">
-            This is your turn to grow 10X faster
-          </h2>
+          <div className="relative z-10 px-6 py-24 md:py-32 text-center flex flex-col items-center">
+            
+            <h2 className="text-[48px] md:text-[64px] lg:text-[80px] font-medium tracking-tight text-white mb-8 leading-[1.1] max-w-4xl">
+              Your turn to scale <br className="hidden md:block" />
+              10x faster.
+            </h2>
 
-          <p className="text-subheading text-muted-foreground mb-8">
-            If you miss it, you might regret it later. Secure your spot now.
-          </p>
+            <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl font-normal leading-relaxed">
+              Don't let the AI revolution pass you by. Join thousands of professionals future-proofing their careers today.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button size="lg" className="w-full sm:w-auto px-8" onClick={onRegisterClick}>
-              <span className="font-semibold">Join The Workshop</span>
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto px-8">
-              <Download className="mr-2 h-4 w-4" />
-              <span className="font-medium">Download Brochure</span>
-            </Button>
-          </div>
-
-          <div className="mb-8 flex justify-center">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-[4px] border border-border bg-secondary/30">
-              <Gift className="h-4 w-4 text-primary" />
-              <span className="text-sm font-semibold text-foreground">Get 11 Bonus AI Tools</span>
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-10">
+              <Button 
+                size="xl" 
+                className="w-full sm:w-auto px-10 bg-white text-brand-ink hover:bg-brand-cloud rounded-[8px] text-lg font-medium" 
+                onClick={onRegisterClick}
+              >
+                <span>Join the Workshop — ₹99</span>
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="xl" 
+                className="w-full sm:w-auto px-10 rounded-[8px] border-white/20 text-white hover:bg-white/10 hover:text-white text-lg font-medium"
+              >
+                Download Brochure
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
-          </div>
 
-          <p className="text-sm text-muted-foreground font-medium">
-            Money Back Guarantee with Full Refund of Registration fee, if not satisfied. No questions asked.
-          </p>
+            <p className="text-sm text-white/60 font-medium">
+              100% Money Back Guarantee. Full refund if not satisfied. No questions asked.
+            </p>
+            
+          </div>
         </div>
+
       </div>
     </section>
   );

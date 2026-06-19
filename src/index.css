@@ -89,22 +89,22 @@
 @layer components {
   /* Utility classes for typography scale */
   .text-hero {
-    @apply text-[72px] leading-tight font-medium;
+    @apply text-[48px] md:text-[64px] lg:text-[80px] leading-[1.1] font-medium tracking-[-0.02em];
   }
   .text-page-title {
-    @apply text-[56px] leading-tight font-medium;
+    @apply text-[40px] md:text-[48px] lg:text-[56px] leading-[1.15] font-medium tracking-[-0.01em];
   }
   .text-section-title {
-    @apply text-[44px] leading-tight font-medium;
+    @apply text-[32px] md:text-[40px] leading-[1.2] font-medium tracking-tight;
   }
   .text-card-title {
-    @apply text-[24px] leading-snug font-medium;
+    @apply text-[20px] md:text-[24px] leading-[1.3] font-medium;
   }
   .text-subheading {
-    @apply text-[20px] leading-snug font-medium;
+    @apply text-[18px] md:text-[20px] leading-relaxed font-normal;
   }
   .text-body {
-    @apply text-[16px] leading-normal font-normal;
+    @apply text-[16px] md:text-[18px] leading-relaxed font-normal;
   }
   .text-caption {
     @apply text-[14px] leading-normal font-normal;
@@ -123,7 +123,7 @@
   }
 
   .enterprise-section {
-    @apply py-12 md:py-20;
+    @apply py-20 md:py-32;
   }
   
   .enterprise-container {

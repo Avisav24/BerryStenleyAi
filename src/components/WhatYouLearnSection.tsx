@@ -1,46 +1,73 @@
-import { Bot, Globe, Megaphone, BookOpen, Workflow, TrendingUp, DollarSign, Sparkles, Video, Palette, Briefcase } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
-const learningItems = [
-  { icon: Bot, text: "40 AI Productivity tools (ChatGPT, Gemini, Claude, Copilot etc.)" },
-  { icon: Globe, text: "Website building without coding" },
-  { icon: Megaphone, text: "Create Ads for multiple industries" },
-  { icon: BookOpen, text: "AI tools for study & competitive exams" },
-  { icon: Workflow, text: "AI automation & workflow building" },
-  { icon: TrendingUp, text: "AI for business growth & marketing" },
-  { icon: DollarSign, text: "AI for finance, HR, sales, operations" },
-  { icon: Sparkles, text: "Prompt Engineering Mastery" },
-  { icon: Video, text: "AI video creation" },
-  { icon: Palette, text: "AI design & branding" },
-  { icon: Briefcase, text: "Freelancing & AI income growth" },
+const learningCategories = [
+  {
+    title: "Core AI Tooling",
+    items: [
+      "Master 40+ Productivity Tools (ChatGPT, Gemini, Claude, Copilot)",
+      "Prompt Engineering Mastery",
+      "AI automation & workflow building"
+    ]
+  },
+  {
+    title: "Applied Creativity",
+    items: [
+      "Website building without coding",
+      "AI design & branding",
+      "AI video creation",
+      "Create Ads for multiple industries"
+    ]
+  },
+  {
+    title: "Business & Career",
+    items: [
+      "AI for business growth & marketing",
+      "AI for finance, HR, sales, operations",
+      "AI tools for study & competitive exams",
+      "Freelancing & AI income growth"
+    ]
+  }
 ];
 
 const WhatYouLearnSection = () => {
   return (
-    <section className="py-20 bg-background border-b border-border">
-      <div className="container mx-auto px-6 max-w-[1366px]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-section-title text-foreground tracking-tight">
-              What You Will Learn
-            </h2>
-            <p className="text-subheading text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive AI curriculum designed to transform you into an industry-ready professional.
-            </p>
+    <section className="enterprise-section bg-brand-ink text-white">
+      <div className="enterprise-container">
+        
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-8">
+          
+          <div className="lg:col-span-5 relative">
+            <div className="sticky top-32">
+              <h2 className="text-section-title mb-6 text-white tracking-tight">
+                A curriculum built for real-world impact.
+              </h2>
+              <p className="text-subheading text-white/70 mb-8 max-w-md">
+                We've distilled thousands of hours of AI experimentation into a practical, actionable framework that you can apply immediately.
+              </p>
+            </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {learningItems.map((item, index) => (
-              <div
-                key={index}
-                className="enterprise-card p-6 flex items-start gap-4"
-              >
-                <div className="flex-shrink-0 w-10 h-10 rounded-[8px] bg-secondary flex items-center justify-center">
-                  <item.icon className="h-5 w-5 text-primary" />
+          <div className="lg:col-span-6 lg:col-start-7 flex flex-col gap-12">
+            {learningCategories.map((category, idx) => (
+              <div key={idx} className="border-t border-white/20 pt-8">
+                <div className="flex items-baseline gap-4 mb-8">
+                  <span className="text-primary font-mono text-sm tracking-widest">0{idx + 1}</span>
+                  <h3 className="text-2xl md:text-[32px] font-medium tracking-tight">{category.title}</h3>
                 </div>
-                <span className="text-sm font-medium text-foreground leading-relaxed mt-2">{item.text}</span>
+                <ul className="flex flex-col gap-6">
+                  {category.items.map((item, itemIdx) => (
+                    <li key={itemIdx} className="flex items-start gap-4 group">
+                      <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-primary transition-colors">
+                        <CheckCircle2 className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-lg text-white/80 leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>
