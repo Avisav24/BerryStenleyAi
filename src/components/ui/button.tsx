@@ -5,27 +5,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-semibold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 font-display",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-semibold uppercase tracking-[1.5px] ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 font-display",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-button hover:shadow-gold-glow hover:scale-105",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-none hover:scale-105",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border text-foreground bg-transparent hover:bg-secondary hover:text-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow",
-        ghost: "hover:bg-accent/10 hover:text-accent",
-        link: "text-secondary underline-offset-4 hover:underline",
-        hero: "bg-gradient-to-r from-gold to-gold-dark text-primary-foreground font-bold shadow-button hover:shadow-gold-glow hover:scale-105 hover:from-gold-light hover:to-gold",
-        heroSecondary: "border-2 border-secondary text-secondary bg-secondary/10 hover:bg-secondary hover:text-secondary-foreground backdrop-blur-sm",
-        cta: "bg-gradient-to-r from-gold to-gold-dark text-navy-dark font-bold text-lg shadow-button hover:shadow-gold-glow hover:scale-105",
-        ctaSecondary: "bg-gradient-to-r from-cyan to-cyan-dark text-navy-dark font-bold shadow-glow-sm hover:shadow-glow hover:scale-105",
+        outline: "border border-border text-foreground bg-transparent hover:bg-white hover:text-black",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        hero: "bg-primary text-primary-foreground font-bold hover:scale-105",
       },
       size: {
-        default: "h-11 px-6 py-2",
-        sm: "h-9 rounded-lg px-4",
-        lg: "h-14 rounded-2xl px-8 text-base",
-        xl: "h-16 rounded-2xl px-10 text-lg",
-        icon: "h-10 w-10",
+        default: "h-[52px] px-8 py-2",
+        sm: "h-9 px-4 text-xs",
+        lg: "h-[60px] px-10 text-base",
+        xl: "h-[72px] px-12 text-lg",
+        icon: "h-[52px] w-[52px]",
       },
     },
     defaultVariants: {

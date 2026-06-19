@@ -1,70 +1,117 @@
-import { AlertTriangle, Clock, TrendingUp, AlertCircle } from "lucide-react";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const WhyAISection = () => {
+  const container = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Parallax background
+    gsap.to('.parallax-bg', {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Reveal text elements
+    const revealElements = gsap.utils.toArray('.reveal-up');
+    revealElements.forEach((el: any) => {
+      gsap.fromTo(el, 
+        { y: 60, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+          }
+        }
+      );
+    });
+
+    // Reveal panels
+    const panels = gsap.utils.toArray('.feature-panel');
+    panels.forEach((panel: any) => {
+      gsap.fromTo(panel,
+        { scale: 0.95, opacity: 0 },
+        {
+          scale: 1, opacity: 1, duration: 1.2, ease: "power2.out",
+          scrollTrigger: {
+            trigger: panel,
+            start: "top 80%",
+          }
+        }
+      );
+    });
+
+  }, { scope: container });
+
   return (
-    <section className="enterprise-section bg-white border-b border-border">
-      <div className="enterprise-container">
-        <div className="grid lg:grid-cols-12 gap-16">
+    <section ref={container} className="relative py-32 bg-background border-b border-border overflow-hidden">
+      
+      {/* Parallax Background Texture */}
+      <div className="absolute inset-0 pointer-events-none opacity-20 parallax-bg" style={{ 
+        backgroundImage: 'radial-gradient(circle at 2px 2px, #333 1px, transparent 0)',
+        backgroundSize: '32px 32px'
+      }} />
+
+      <div className="enterprise-container relative z-10">
+        
+        <div className="max-w-4xl mb-24">
+          <div className="inline-flex items-center gap-3 border border-[#E22718]/30 px-4 py-2 bg-[#E22718]/5 mb-8 reveal-up">
+            <div className="w-2 h-2 bg-[#E22718] animate-pulse" />
+            <span className="text-xs uppercase tracking-widest text-white">Market Shift Alert</span>
+          </div>
           
-          {/* Sticky Left Content */}
-          <div className="lg:col-span-5 relative">
-            <div className="sticky top-32">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 border border-red-100 mb-8">
-                <AlertTriangle className="h-4 w-4 text-red-600" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-red-600">Market Shift Alert</span>
-              </div>
-              
-              <h2 className="text-page-title text-brand-ink mb-6">
-                Why AI skills are essential in 2025.
-              </h2>
-              
-              <p className="text-subheading text-muted-foreground mb-8">
-                AI is reshaping the workforce globally. Analysts project that within 3 years, 80% of enterprise roles will require fundamental AI literacy.
+          <h2 className="text-page-title text-white mb-8 reveal-up">
+            Why AI skills are the only true career moat in 2025.
+          </h2>
+          
+          <p className="text-[24px] text-muted-foreground font-light leading-relaxed reveal-up max-w-3xl">
+            Analysts project that within 3 years, 80% of enterprise roles will require fundamental AI literacy. Adapt now, or risk obsolescence.
+          </p>
+        </div>
+
+        {/* Feature Panels */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          
+          <div className="feature-panel p-10 md:p-16 border border-border bg-card flex flex-col justify-between min-h-[400px]">
+            <div>
+              <h3 className="text-3xl font-light text-white mb-6">Time Sensitivity</h3>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Every day delayed is an opportunity cost. Organizations are actively replacing legacy workflows, and professionals lacking AI skills risk reduced competitiveness.
               </p>
+            </div>
+            
+            <div className="mt-12 h-1 w-full bg-border relative overflow-hidden">
+              <div className="absolute top-0 left-0 h-full bg-[#1C69D4] w-1/3" />
             </div>
           </div>
 
-          {/* Scrolling Right Content: Editorial Blocks */}
-          <div className="lg:col-span-7 flex flex-col gap-12">
+          <div className="feature-panel p-10 md:p-16 border border-border bg-card flex flex-col justify-between min-h-[400px]">
+            <div>
+              <h3 className="text-3xl font-light text-white mb-6">Role Obsolescence</h3>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Hundreds of traditional job functions are being automated. Upskilling mitigates this risk by elevating you from a task-executor to an AI-manager.
+              </p>
+            </div>
             
-            <div className="bg-brand-cloud rounded-[16px] p-8 md:p-12 border border-border/50 transition-colors hover:border-primary/30 group">
-              <div className="mb-12">
-                <Clock className="h-8 w-8 text-brand-ink mb-6 group-hover:text-primary transition-colors" />
-                <h3 className="text-[28px] font-medium tracking-tight text-brand-ink mb-4">Time Sensitivity</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Every day delayed is an opportunity cost in a rapidly evolving market. Organizations are actively replacing legacy workflows, and professionals lacking AI skills risk reduced competitiveness.
-                </p>
-              </div>
-              <div className="h-48 w-full bg-white rounded-[8px] border border-border/60 flex items-center justify-center overflow-hidden">
-                <div className="w-full max-w-sm h-32 bg-secondary rounded flex flex-col gap-3 p-4">
-                  <div className="h-4 w-1/3 bg-brand-charcoal/20 rounded" />
-                  <div className="h-2 w-full bg-brand-charcoal/10 rounded" />
-                  <div className="h-2 w-5/6 bg-brand-charcoal/10 rounded" />
-                  <div className="h-2 w-4/6 bg-brand-charcoal/10 rounded" />
-                </div>
-              </div>
+            <div className="mt-12 flex items-end gap-2 h-8">
+              <div className="w-1/3 bg-border h-1/3" />
+              <div className="w-1/3 bg-border h-2/3" />
+              <div className="w-1/3 bg-[#0066B1] h-full" />
             </div>
-
-            <div className="bg-brand-ink rounded-[16px] p-8 md:p-12 border border-brand-ink transition-colors hover:border-primary/50 group">
-              <div className="mb-12">
-                <AlertCircle className="h-8 w-8 text-white mb-6 group-hover:text-primary transition-colors" />
-                <h3 className="text-[28px] font-medium tracking-tight text-white mb-4">Role Obsolescence</h3>
-                <p className="text-lg text-white/70 leading-relaxed">
-                  Hundreds of traditional job functions are being automated. Upskilling mitigates this risk by elevating you from a task-executor to an AI-manager.
-                </p>
-              </div>
-              <div className="h-48 w-full bg-brand-charcoal/30 rounded-[8px] border border-white/10 flex items-center justify-center overflow-hidden">
-                <div className="w-full max-w-sm flex items-end justify-center gap-4 h-32">
-                  <div className="w-12 bg-red-500/80 rounded-t h-1/4" />
-                  <div className="w-12 bg-orange-400/80 rounded-t h-2/4" />
-                  <div className="w-12 bg-primary rounded-t h-full" />
-                </div>
-              </div>
-            </div>
-
           </div>
 
         </div>
+
       </div>
     </section>
   );

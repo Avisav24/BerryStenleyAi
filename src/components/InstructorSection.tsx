@@ -1,7 +1,11 @@
 import { useState, useRef } from "react";
-import { Play, Award, GraduationCap } from "lucide-react";
+import { Play } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// (Keep the same array, trimmed down for brevity in the component structure)
+gsap.registerPlugin(ScrollTrigger);
+
 const compellingReasons = [
   { num: 1, heading: "Unmatched Educational Excellence", text: "Holds PhD, NET, MBA, M.Com, PG Diploma." },
   { num: 2, heading: "20 Years of Professional Experience", text: "Across Academics, Corporate Training, and Administration." },
@@ -12,12 +16,43 @@ const compellingReasons = [
   { num: 7, heading: "Strong Thought Leadership", text: "60+ International & National research papers published." },
   { num: 8, heading: "Chief Editor of Journals", text: "Editor of two International Refereed Journals." },
   { num: 9, heading: "Administrative Leadership", text: "Served as Dean, Professor, HOD, NAAC Head." },
-  { num: 10, heading: "National & International Exposure", text: "Participated in 450+ international webinars." },
+  { num: 10, heading: "National Exposure", text: "Participated in 450+ international webinars." },
 ];
 
 const InstructorSection = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const container = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Parallax on the video container
+    gsap.to('.instructor-visual', {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // Fade in reasons
+    const reasons = gsap.utils.toArray('.reason-item');
+    reasons.forEach((reason: any) => {
+      gsap.fromTo(reason,
+        { opacity: 0, x: 20 },
+        {
+          opacity: 1, x: 0, duration: 0.8, ease: "power2.out",
+          scrollTrigger: {
+            trigger: reason,
+            start: "top 90%",
+          }
+        }
+      );
+    });
+
+  }, { scope: container });
 
   const handleVideoPlay = () => {
     if (videoRef.current) {
@@ -27,47 +62,47 @@ const InstructorSection = () => {
   };
 
   return (
-    <section className="enterprise-section bg-brand-cloud border-b border-border">
+    <section ref={container} className="enterprise-section bg-background border-b border-border overflow-hidden">
       <div className="enterprise-container">
         
         <div className="grid lg:grid-cols-12 gap-16 lg:gap-8">
           
           {/* Instructor Profile (Left) */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
+          <div className="lg:col-span-5 relative">
             <div className="sticky top-32">
-              <h2 className="text-[32px] md:text-[40px] font-medium tracking-tight text-brand-ink mb-2">
-                Learn from the expert.
+              <p className="text-xs uppercase tracking-widest text-[#0066B1] font-semibold mb-4">Chief AI Instructor</p>
+              <h2 className="text-[48px] md:text-[64px] font-normal tracking-tight text-white mb-6 leading-none">
+                Prof. (Dr) Brajesh Kumar
               </h2>
-              <p className="text-subheading text-muted-foreground mb-12">
-                Prof. (Dr) Brajesh Kumar brings two decades of academic excellence and corporate implementation to this program.
+              <p className="text-xl text-muted-foreground font-light mb-12">
+                Bringing two decades of academic excellence and corporate implementation to this program.
               </p>
 
-              <div className="rounded-[16px] overflow-hidden bg-brand-ink relative group aspect-[4/5] md:aspect-square lg:aspect-[4/5] shadow-modal border border-border/50">
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover opacity-90"
-                  playsInline
-                  controls={isVideoPlaying}
-                  controlsList="nodownload"
-                  onContextMenu={(e) => e.preventDefault()}
-                  onEnded={() => setIsVideoPlaying(false)}
-                >
-                  <source src="/videos/instructor-message.mp4" type="video/mp4" />
-                </video>
+              <div className="overflow-hidden bg-card border border-border aspect-[4/5] relative">
+                <div className="instructor-visual w-full h-[120%] -top-[10%] relative">
+                  <video
+                    ref={videoRef}
+                    className="w-full h-full object-cover opacity-60 mix-blend-screen grayscale"
+                    playsInline
+                    controls={isVideoPlaying}
+                    controlsList="nodownload"
+                    onContextMenu={(e) => e.preventDefault()}
+                    onEnded={() => setIsVideoPlaying(false)}
+                  >
+                    <source src="/videos/instructor-message.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                </div>
                 
                 {!isVideoPlaying && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 group hover:bg-black/40 transition-colors">
                     <button
                       onClick={handleVideoPlay}
-                      className="w-20 h-20 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-xl transform transition-transform group-hover:scale-105"
+                      className="w-20 h-20 bg-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
                       aria-label="Play video message"
                     >
-                      <Play className="h-8 w-8 text-brand-ink ml-1" fill="currentColor" />
+                      <Play className="h-8 w-8 text-black ml-1" fill="currentColor" />
                     </button>
-                    <div className="absolute bottom-8 left-8 right-8">
-                      <p className="text-white font-medium text-lg">Prof. (Dr) Brajesh Kumar</p>
-                      <p className="text-white/70 text-sm">Chief AI Instructor</p>
-                    </div>
                   </div>
                 )}
               </div>
@@ -75,25 +110,24 @@ const InstructorSection = () => {
           </div>
 
           {/* Credentials List (Right) */}
-          <div className="lg:col-span-6 lg:col-start-7">
-            <div className="mb-8 flex items-center gap-3 border-b border-border pb-6">
-              <Award className="h-6 w-6 text-primary" />
-              <h3 className="text-2xl font-medium text-brand-ink">
-                Why this matters for your career
+          <div className="lg:col-span-6 lg:col-start-7 pt-8 lg:pt-0">
+            <div className="mb-12 border-b border-border pb-6">
+              <h3 className="text-3xl font-light text-white">
+                Why this matters for your career.
               </h3>
             </div>
             
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-12">
               {compellingReasons.map((reason) => (
-                <div key={reason.num} className="flex gap-6 group">
-                  <div className="text-primary font-mono text-sm tracking-widest pt-1 opacity-50 group-hover:opacity-100 transition-opacity">
+                <div key={reason.num} className="reason-item flex gap-6">
+                  <div className="text-[#1C69D4] font-mono text-sm tracking-widest pt-1">
                     {reason.num.toString().padStart(2, '0')}
                   </div>
                   <div>
-                    <h4 className="text-[20px] font-medium text-brand-ink mb-2 leading-tight">
+                    <h4 className="text-2xl font-light text-white mb-3">
                       {reason.heading}
                     </h4>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-lg text-muted-foreground font-light">
                       {reason.text}
                     </p>
                   </div>
@@ -101,9 +135,9 @@ const InstructorSection = () => {
               ))}
             </div>
 
-            <div className="mt-16 p-8 bg-white border border-border/60 rounded-[12px] shadow-sm">
-              <p className="text-lg text-brand-ink leading-relaxed">
-                "Learning AI from a generic instructor means learning how to use software tools. Learning AI from <strong className="font-semibold text-primary">Dr. Kumar</strong> means transforming your methodology and career trajectory."
+            <div className="mt-20 p-10 border border-border bg-card">
+              <p className="text-xl text-white font-light leading-relaxed">
+                "Learning AI from a generic instructor means learning how to use software tools. Learning AI from <strong className="font-normal text-[#1C69D4]">Dr. Kumar</strong> means transforming your methodology and career trajectory."
               </p>
             </div>
           </div>

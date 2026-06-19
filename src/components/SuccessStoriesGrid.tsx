@@ -1,96 +1,112 @@
-import { Briefcase, GraduationCap, TrendingUp } from "lucide-react";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const stories = [
   {
-    icon: Briefcase,
-    title: "Corporate AI Usage",
-    description: "Professionals using AI to automate workflows",
-    quote: "I saved 15 hours a week using the exact automations taught here.",
-    author: "Sarah J., Product Manager"
+    category: "Entrepreneurs Scaling",
+    quote: "We replaced our entire legacy CRM workflow with AI agents. It didn't just save money—it completely changed how fast we can scale.",
+    author: "Elena R.",
+    role: "Founder & CEO",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop"
   },
   {
-    icon: GraduationCap,
-    title: "Student Exam Success",
-    description: "Students excelling in competitive exams with AI",
-    quote: "Helped me synthesize 100s of research papers in hours.",
-    author: "David K., PhD Candidate"
-  },
-  {
-    icon: TrendingUp,
-    title: "Entrepreneurs Scaling",
-    description: "Business owners growing 10x with AI tools",
-    quote: "We replaced our entire legacy CRM workflow with AI agents.",
-    author: "Elena R., Founder"
+    category: "Corporate AI Usage",
+    quote: "I saved 15 hours a week using the exact automations taught here. My promotion came two months later.",
+    author: "Sarah J.",
+    role: "Product Manager",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop"
   }
 ];
 
 const SuccessStoriesGrid = () => {
+  const container = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const storyBlocks = gsap.utils.toArray('.story-block');
+    storyBlocks.forEach((block: any) => {
+      const img = block.querySelector('.story-img');
+      const content = block.querySelector('.story-content');
+
+      // Image reveal & scale
+      gsap.fromTo(img,
+        { scale: 1.15, opacity: 0 },
+        {
+          scale: 1, opacity: 1, duration: 1.5, ease: "power3.out",
+          scrollTrigger: {
+            trigger: block,
+            start: "top 75%",
+          }
+        }
+      );
+
+      // Content fade up
+      gsap.fromTo(content,
+        { y: 40, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 0.2,
+          scrollTrigger: {
+            trigger: block,
+            start: "top 75%",
+          }
+        }
+      );
+    });
+  }, { scope: container });
+
   return (
-    <section className="enterprise-section bg-white border-b border-border">
+    <section ref={container} className="enterprise-section bg-background border-b border-border">
       <div className="enterprise-container">
         
-        <div className="mb-16 max-w-2xl">
-          <h2 className="text-section-title text-brand-ink mb-4">
+        <div className="mb-20 max-w-3xl">
+          <h2 className="text-page-title text-white mb-6">
             Real outcomes, not just theory.
           </h2>
-          <p className="text-subheading text-muted-foreground">
+          <p className="text-2xl text-muted-foreground font-light">
             See how professionals are actually applying these skills to accelerate their careers and businesses.
           </p>
         </div>
 
-        {/* Featured / Masonry Layout */}
-        <div className="grid lg:grid-cols-12 gap-8">
-          
-          {/* Featured Large Card */}
-          <div className="lg:col-span-7 bg-brand-cloud rounded-[16px] p-8 md:p-12 flex flex-col justify-between">
-            <div className="mb-12">
-              <TrendingUp className="h-8 w-8 text-primary mb-8" />
-              <p className="text-[24px] md:text-[32px] font-medium leading-[1.3] text-brand-ink mb-8">
-                "We replaced our entire legacy CRM workflow with AI agents. It didn't just save money—it completely changed how fast we can scale."
-              </p>
-              <div>
-                <p className="font-semibold text-brand-ink">Elena R.</p>
-                <p className="text-muted-foreground text-sm">Founder & CEO</p>
+        <div className="flex flex-col gap-24 md:gap-32">
+          {stories.map((story, index) => (
+            <div key={index} className="story-block grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+              
+              {/* Image side - Alternate order based on index */}
+              <div className={`lg:col-span-5 h-[500px] bg-card border border-border overflow-hidden relative ${index % 2 === 1 ? 'lg:order-2 lg:col-start-8' : ''}`}>
+                <img 
+                  src={story.image} 
+                  alt={story.author} 
+                  className="story-img w-full h-full object-cover filter grayscale opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
               </div>
-            </div>
-            <div className="pt-8 border-t border-border flex justify-between items-center text-sm font-medium text-muted-foreground">
-              <span>Entrepreneurs Scaling</span>
-              <span>10x Growth</span>
-            </div>
-          </div>
 
-          {/* Secondary Stacked Cards */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
-            
-            <div className="flex-1 bg-white border border-border/60 rounded-[16px] p-8 flex flex-col justify-between shadow-sm">
-              <div>
-                <Briefcase className="h-6 w-6 text-brand-charcoal mb-6" />
-                <p className="text-[18px] leading-relaxed text-brand-ink mb-6">
-                  "I saved 15 hours a week using the exact automations taught here."
-                </p>
-                <div>
-                  <p className="font-semibold text-brand-ink text-sm">Sarah J.</p>
-                  <p className="text-muted-foreground text-xs">Product Manager</p>
+              {/* Content side */}
+              <div className={`story-content lg:col-span-6 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-1' : 'lg:col-start-7'}`}>
+                <div className="mb-8">
+                  <span className="text-xs uppercase tracking-widest text-[#1C69D4] font-semibold">{story.category}</span>
+                </div>
+                
+                <h3 className="text-3xl md:text-4xl font-light text-white leading-[1.3] mb-12">
+                  "{story.quote}"
+                </h3>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-[1px] bg-border" />
+                  <div>
+                    <p className="text-white text-lg font-medium">{story.author}</p>
+                    <p className="text-muted-foreground">{story.role}</p>
+                  </div>
                 </div>
               </div>
+
             </div>
-
-            <div className="flex-1 bg-brand-ink text-white rounded-[16px] p-8 flex flex-col justify-between shadow-sm">
-              <div>
-                <GraduationCap className="h-6 w-6 text-white/60 mb-6" />
-                <p className="text-[18px] leading-relaxed text-white mb-6">
-                  "Helped me synthesize 100s of research papers in hours instead of weeks."
-                </p>
-                <div>
-                  <p className="font-semibold text-white text-sm">David K.</p>
-                  <p className="text-white/60 text-xs">PhD Candidate</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
+          ))}
         </div>
+
       </div>
     </section>
   );
