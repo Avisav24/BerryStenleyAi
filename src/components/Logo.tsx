@@ -17,7 +17,7 @@ const Logo = ({ className = "", size = "md" }: LogoProps) => {
       <img
         src={logoImage}
         alt="Berry Stenley Logo"
-        className={`${sizeClasses[size]} w-auto object-contain`}
+        className={`${sizeClasses[size]} w-auto object-contain bg-white rounded-md p-1 shadow-sm`}
       />
     </div>
   );

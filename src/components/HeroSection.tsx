@@ -54,7 +54,7 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
           {/* Left Column */}
           <div className="lg:col-span-6 flex flex-col items-start text-left">
             
-            <div className="mb-6 overflow-hidden">
+            <div className="mb-6 overflow-hidden pt-2 pb-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-border bg-card headline-line">
                 <div className="w-2 h-2 bg-[#0066B1] animate-pulse" />
                 <span className="text-[11px] font-semibold uppercase tracking-[2px] text-muted-foreground">
@@ -64,10 +64,10 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
             </div>
 
             <h1 ref={headlineRef} className="text-hero text-foreground mb-8">
-              <div className="overflow-hidden"><div className="headline-line">Future-Proof</div></div>
-              <div className="overflow-hidden"><div className="headline-line">Your Career.</div></div>
-              <div className="overflow-hidden"><div className="headline-line text-muted-foreground">Become Irreplaceable</div></div>
-              <div className="overflow-hidden"><div className="headline-line text-muted-foreground">In The AI Era.</div></div>
+              <div className="overflow-hidden pt-4 pb-2 -mt-4 -mb-2"><div className="headline-line">Future-Proof</div></div>
+              <div className="overflow-hidden pt-4 pb-2 -mt-4 -mb-2"><div className="headline-line">Your Career.</div></div>
+              <div className="overflow-hidden pt-4 pb-2 -mt-4 -mb-2"><div className="headline-line text-muted-foreground">Become Irreplaceable</div></div>
+              <div className="overflow-hidden pt-4 pb-2 -mt-4 -mb-2"><div className="headline-line text-muted-foreground">In The AI Era.</div></div>
             </h1>
             
             <p className="text-subheading text-muted-foreground mb-12 max-w-xl subheadline">
@@ -128,12 +128,12 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
               </div>
 
               {/* Technical / UI Overlays for Cinematic Feel */}
-              <div className="absolute top-8 right-8 border border-border bg-background/80 backdrop-blur-md p-4">
+              <div className="absolute top-0 right-0 border border-border bg-background/80 backdrop-blur-md p-4 mt-8 mr-8">
                 <p className="text-[10px] uppercase tracking-widest text-[#0066B1] mb-1">System Status</p>
                 <p className="text-sm font-mono text-white">AI_WORKFLOW_ACTIVE</p>
               </div>
 
-              <div className="absolute bottom-8 left-8 border border-border bg-background/80 backdrop-blur-md p-6 max-w-[280px]">
+              <div className="absolute bottom-0 left-0 border border-border bg-background/80 backdrop-blur-md p-6 max-w-[280px] mb-8 ml-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-2 h-2 bg-[#E22718] animate-pulse" />
                   <p className="text-xs uppercase tracking-widest text-muted-foreground">Live Data</p>
