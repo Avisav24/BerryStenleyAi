@@ -18,7 +18,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border shadow-none">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
       {/* Mobile Layout */}
       <div className="container mx-auto px-4 py-2 sm:hidden flex flex-col gap-2">
         <h1 className="font-display font-semibold text-center text-sm text-foreground tracking-tight">
@@ -48,8 +48,8 @@ const Header = () => {
           </div>
           
           {/* Timer Section */}
-          <div className="flex items-center gap-3 bg-secondary px-4 py-1.5 rounded-none border border-border">
-            <span className="text-xs uppercase tracking-widest font-semibold text-muted-foreground">Offer Ends In</span>
+          <div className="flex items-center gap-3 bg-secondary px-5 py-2 rounded-full border border-border">
+            <span className="text-[11px] uppercase tracking-widest font-semibold text-muted-foreground">Offer Ends In</span>
             <div className="font-display font-bold text-lg text-primary tabular-nums">
               {formatTime(timeLeft)}
             </div>

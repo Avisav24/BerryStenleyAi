@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,69 +6,49 @@
 
 @layer base {
   :root {
-    /* Colors - Cinematic Dark Mode First */
-    --background: 0 0% 0%; /* Black #000000 */
-    --foreground: 0 0% 100%; /* White #FFFFFF */
+    /* Colors - Miro/Notion Inspired Light Theme */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 0 0% 7%; /* #111111 */
 
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
 
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
 
-    /* Primary Accent - Neutral for text/buttons, BMW M for highlights */
-    --primary: 0 0% 100%; 
-    --primary-foreground: 0 0% 0%;
+    /* Primary CTA */
+    --primary: 0 0% 7%; /* #111111 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
 
-    --secondary: 0 0% 15%; 
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary Surface */
+    --secondary: 0 0% 97%; /* #F7F7F7 */
+    --secondary-foreground: 0 0% 7%;
 
-    --muted: 0 0% 10%; 
-    --muted-foreground: 0 0% 74%; /* #BDBDBD */
+    --muted: 0 0% 97%; 
+    --muted-foreground: 0 0% 40%; /* #666666 */
 
-    --accent: 0 0% 10%; 
-    --accent-foreground: 0 0% 100%;
+    --accent: 0 0% 97%; 
+    --accent-foreground: 0 0% 7%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 17%; /* #2B2B2B Dividers */
-    --input: 0 0% 17%;
-    --ring: 0 0% 100%;
+    --border: 0 0% 90%; /* #E5E5E5 */
+    --input: 0 0% 90%;
+    --ring: 0 0% 7%;
 
-    --radius: 0px; /* Sharp corners everywhere */
+    --radius: 8px; /* Standard radius, though buttons will be pill-shaped */
 
     /* Typography scale */
     --font-display: 'Inter', sans-serif;
     --font-body: 'Inter', sans-serif;
     
-    /* BMW M Accents for specific use cases */
-    --bmw-blue: #0066B1;
-    --bmw-light-blue: #1C69D4;
-    --bmw-red: #E22718;
-  }
-
-  /* Optional: Force everything to dark mode explicitly just in case */
-  .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 74%;
-    --accent: 0 0% 10%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 17%;
-    --input: 0 0% 17%;
-    --ring: 0 0% 100%;
+    /* Pastel Accents */
+    --pastel-yellow: #FFD02F;
+    --pastel-pink: #FFB4A2;
+    --pastel-mint: #B8F2E6;
+    --pastel-purple: #DCC6FF;
+    --pastel-peach: #FFD6A5;
   }
 }
 
@@ -79,44 +59,45 @@
 
   html {
     scroll-behavior: smooth;
-    background-color: #000000;
+    background-color: #FFFFFF;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
-    font-weight: 400; /* Inter 400 */
+    font-weight: 400;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 600; /* Semi-bold for headings in light theme */
+    letter-spacing: -0.02em;
   }
 }
 
 @layer components {
-  /* Utility classes for typography scale - Cinematic */
+  /* Utility classes for typography scale - Collaborative */
   .text-hero {
-    @apply text-[64px] md:text-[80px] lg:text-[100px] leading-[1.05] tracking-[-0.03em] font-normal;
+    @apply text-[56px] md:text-[72px] lg:text-[80px] leading-[1.05] tracking-[-0.03em] font-semibold;
   }
   .text-page-title {
-    @apply text-[48px] md:text-[56px] leading-[1.1] tracking-[-0.02em] font-normal;
+    @apply text-[40px] md:text-[48px] lg:text-[56px] leading-[1.1] tracking-[-0.02em] font-semibold;
   }
   .text-section-title {
-    @apply text-[36px] md:text-[48px] leading-[1.15] tracking-[-0.01em] font-normal;
+    @apply text-[32px] md:text-[40px] leading-[1.15] tracking-[-0.02em] font-semibold;
   }
   .text-card-title {
-    @apply text-[24px] md:text-[28px] leading-[1.2] font-normal tracking-tight;
+    @apply text-[20px] md:text-[24px] leading-[1.2] font-semibold tracking-tight;
   }
   .text-subheading {
-    @apply text-[20px] md:text-[24px] leading-relaxed font-light text-muted-foreground;
+    @apply text-[20px] md:text-[24px] leading-[1.4] font-normal text-muted-foreground;
   }
   .text-body {
-    @apply text-[16px] md:text-[18px] leading-relaxed font-light;
+    @apply text-[16px] md:text-[18px] leading-[1.6] font-normal;
   }
   .text-caption {
-    @apply text-[14px] leading-normal font-light text-muted-foreground uppercase tracking-widest;
+    @apply text-[14px] leading-normal font-medium text-muted-foreground uppercase tracking-wide;
   }
 
   /* Structural elements */
@@ -125,29 +106,44 @@
   }
   
   .enterprise-container {
-    @apply container mx-auto px-6 md:px-8 max-w-[1440px];
+    @apply container mx-auto px-6 md:px-10 max-w-[1440px];
   }
   
   /* GSAP utility classes */
   .gsap-reveal {
     visibility: hidden;
   }
+
+  /* Sticky Note Card Component styles */
+  .sticky-note {
+    @apply relative p-8 shadow-[2px_4px_16px_rgba(0,0,0,0.04)] transition-transform hover:-translate-y-1 duration-300;
+  }
+  .sticky-note::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-2 bg-black/5 opacity-50 mix-blend-multiply;
+  }
+  .sticky-yellow { background-color: var(--pastel-yellow); }
+  .sticky-pink { background-color: var(--pastel-pink); }
+  .sticky-mint { background-color: var(--pastel-mint); }
+  .sticky-purple { background-color: var(--pastel-purple); }
+  .sticky-peach { background-color: var(--pastel-peach); }
 }
 
-/* Custom scrollbar - Dark Mode */
+/* Custom scrollbar - Light Mode */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2B2B2B;
+  background: #E5E5E5;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #404040;
+  background: #CCCCCC;
 }

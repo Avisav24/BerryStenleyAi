@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { AlertTriangle, Clock, TrendingUp, AlertCircle, ArrowRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,105 +10,94 @@ const WhyAISection = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Parallax background
-    gsap.to('.parallax-bg', {
-      yPercent: 20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
+    const cards = gsap.utils.toArray('.flow-card');
+    cards.forEach((card: any, index) => {
+      gsap.fromTo(card,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1, x: 0, duration: 0.8, ease: "power2.out", delay: index * 0.2,
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top 75%",
+          }
+        }
+      );
+    });
+
+    gsap.fromTo('.flow-line',
+      { scaleX: 0, transformOrigin: "left center" },
+      {
+        scaleX: 1, duration: 1, ease: "power2.inOut", stagger: 0.2,
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 75%",
+        }
       }
-    });
-
-    // Reveal text elements
-    const revealElements = gsap.utils.toArray('.reveal-up');
-    revealElements.forEach((el: any) => {
-      gsap.fromTo(el, 
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-          }
-        }
-      );
-    });
-
-    // Reveal panels
-    const panels = gsap.utils.toArray('.feature-panel');
-    panels.forEach((panel: any) => {
-      gsap.fromTo(panel,
-        { scale: 0.95, opacity: 0 },
-        {
-          scale: 1, opacity: 1, duration: 1.2, ease: "power2.out",
-          scrollTrigger: {
-            trigger: panel,
-            start: "top 80%",
-          }
-        }
-      );
-    });
-
+    );
   }, { scope: container });
 
   return (
-    <section ref={container} className="relative py-32 bg-background border-b border-border overflow-hidden">
-      
-      {/* Parallax Background Texture */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 parallax-bg" style={{ 
-        backgroundImage: 'radial-gradient(circle at 2px 2px, #333 1px, transparent 0)',
-        backgroundSize: '32px 32px'
-      }} />
-
-      <div className="enterprise-container relative z-10">
+    <section ref={container} className="enterprise-section bg-[#F9F9F9] border-b border-border overflow-hidden">
+      <div className="enterprise-container relative">
         
-        <div className="max-w-4xl mb-24">
-          <div className="inline-flex items-center gap-3 border border-[#E22718]/30 px-4 py-2 bg-[#E22718]/5 mb-8 reveal-up">
-            <div className="w-2 h-2 bg-[#E22718] animate-pulse" />
-            <span className="text-xs uppercase tracking-widest text-white">Market Shift Alert</span>
-          </div>
-          
-          <h2 className="text-page-title text-white mb-8 reveal-up">
-            Why AI skills are the only true career moat in 2025.
-          </h2>
-          
-          <p className="text-[24px] text-muted-foreground font-light leading-relaxed reveal-up max-w-3xl">
-            Analysts project that within 3 years, 80% of enterprise roles will require fundamental AI literacy. Adapt now, or risk obsolescence.
-          </p>
-        </div>
+        {/* Background Dot Grid */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
-        {/* Feature Panels */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="relative z-10 flex flex-col lg:flex-row gap-16 items-center">
           
-          <div className="feature-panel p-10 md:p-16 border border-border bg-card flex flex-col justify-between min-h-[400px]">
-            <div>
-              <h3 className="text-3xl font-light text-white mb-6">Time Sensitivity</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Every day delayed is an opportunity cost. Organizations are actively replacing legacy workflows, and professionals lacking AI skills risk reduced competitiveness.
-              </p>
+          <div className="lg:w-1/3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#DC2626]/20 rounded-full mb-6 shadow-sm">
+              <AlertTriangle className="h-4 w-4 text-[#DC2626]" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-[#DC2626]">Market Shift Alert</span>
             </div>
             
-            <div className="mt-12 h-1 w-full bg-border relative overflow-hidden">
-              <div className="absolute top-0 left-0 h-full bg-[#1C69D4] w-1/3" />
-            </div>
+            <h2 className="text-page-title text-foreground mb-6">
+              Why AI Skills are Essential in 2025
+            </h2>
+            
+            <p className="text-body text-muted-foreground leading-relaxed mb-8">
+              AI is reshaping the workforce globally. Analysts project that within 3 years, <strong className="text-foreground">80% of enterprise roles</strong> will require fundamental AI literacy. Organizations are actively replacing legacy workflows, and professionals lacking AI skills risk reduced competitiveness and earning potential. Adapting now is a strategic career imperative.
+            </p>
           </div>
 
-          <div className="feature-panel p-10 md:p-16 border border-border bg-card flex flex-col justify-between min-h-[400px]">
-            <div>
-              <h3 className="text-3xl font-light text-white mb-6">Role Obsolescence</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Hundreds of traditional job functions are being automated. Upskilling mitigates this risk by elevating you from a task-executor to an AI-manager.
-              </p>
-            </div>
+          <div className="lg:w-2/3 w-full relative h-auto lg:h-[500px] flex items-center justify-center">
             
-            <div className="mt-12 flex items-end gap-2 h-8">
-              <div className="w-1/3 bg-border h-1/3" />
-              <div className="w-1/3 bg-border h-2/3" />
-              <div className="w-1/3 bg-[#0066B1] h-full" />
+            {/* Visual Flow / Roadmap */}
+            <div className="relative w-full max-w-[700px] aspect-video">
+              
+              {/* Connecting Lines */}
+              <div className="absolute top-[20%] left-[25%] w-[40%] h-[2px] bg-border flow-line hidden md:block" />
+              <div className="absolute top-[50%] left-[60%] w-[25%] h-[2px] bg-border flow-line hidden md:block" />
+
+              {/* Card 1 */}
+              <div className="flow-card absolute md:top-[10%] md:left-0 relative md:absolute w-full md:w-[280px] bg-white border border-border rounded-[12px] p-6 shadow-sm mb-6 md:mb-0 z-10">
+                <div className="w-10 h-10 rounded-full bg-[#FFD02F]/20 flex items-center justify-center mb-4">
+                  <Clock className="h-5 w-5 text-[#B28C00]" />
+                </div>
+                <h3 className="font-semibold text-lg text-foreground mb-2">Time Sensitivity</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">Every day delayed is an opportunity cost in a rapidly evolving market.</p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="flow-card absolute md:top-[40%] md:left-[35%] relative md:absolute w-full md:w-[280px] bg-white border border-border rounded-[12px] p-6 shadow-sm mb-6 md:mb-0 z-20">
+                <div className="w-10 h-10 rounded-full bg-[#FFB4A2]/30 flex items-center justify-center mb-4">
+                  <AlertCircle className="h-5 w-5 text-[#CC543A]" />
+                </div>
+                <h3 className="font-semibold text-lg text-foreground mb-2">Role Obsolescence</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">Hundreds of traditional job functions are being automated. Upskilling mitigates this risk.</p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="flow-card absolute md:top-[70%] md:right-0 relative md:absolute w-full md:w-[280px] bg-[#111111] border border-[#111111] rounded-[12px] p-6 shadow-lg z-30">
+                <div className="w-10 h-10 rounded-full bg-[#B8F2E6]/20 flex items-center justify-center mb-4">
+                  <TrendingUp className="h-5 w-5 text-[#B8F2E6]" />
+                </div>
+                <h3 className="font-semibold text-lg text-white mb-2">Value Appreciation</h3>
+                <p className="text-sm text-[#CCCCCC] leading-relaxed">AI-proficient personnel report significantly higher salary brackets and leadership opportunities.</p>
+              </div>
+
             </div>
+
           </div>
 
         </div>

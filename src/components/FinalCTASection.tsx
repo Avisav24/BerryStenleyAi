@@ -15,77 +15,74 @@ const FinalCTASection = ({ onRegisterClick }: FinalCTASectionProps) => {
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Reveal CTA elements
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: container.current,
-        start: "top 60%",
+        start: "top 70%",
       }
     });
 
-    tl.fromTo('.cta-headline', 
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power4.out" }
+    tl.fromTo('.cta-badge',
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.5)" }
+    )
+    .fromTo('.cta-headline', 
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+      "-=0.4"
     )
     .fromTo('.cta-copy',
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      "-=0.8"
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+      "-=0.6"
     )
     .fromTo('.cta-button',
       { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-      "-=0.6"
+      { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
+      "-=0.4"
     );
 
-    // Parallax background
-    gsap.to('.cta-bg', {
-      yPercent: 30,
-      ease: "none",
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
+    // Subtle float for background decorative elements
+    gsap.to('.deco-1', { y: -20, rotation: 5, duration: 4, yoyo: true, repeat: -1, ease: "sine.inOut" });
+    gsap.to('.deco-2', { y: 20, rotation: -10, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" });
 
   }, { scope: container });
 
   return (
-    <section ref={container} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden border-b border-border">
+    <section ref={container} className="relative py-32 md:py-48 flex items-center justify-center overflow-hidden bg-white border-b border-border">
       
-      {/* Cinematic Background Layer */}
-      <div className="absolute inset-0 bg-[#000000] cta-bg">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0066B1]/20 via-[#000000]/80 to-[#000000] z-0" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1C69D4]/10 blur-[120px] rounded-full mix-blend-screen" />
+      {/* Collaborative Background Accents */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="deco-1 absolute top-[10%] left-[10%] w-[200px] h-[200px] bg-[#DCC6FF] rounded-full mix-blend-multiply filter blur-[80px] opacity-60" />
+        <div className="deco-2 absolute bottom-[10%] right-[10%] w-[300px] h-[300px] bg-[#B8F2E6] rounded-full mix-blend-multiply filter blur-[100px] opacity-60" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-6 max-w-[1000px] text-center">
+      <div className="container relative z-10 mx-auto px-6 max-w-[800px] text-center">
         
-        <p className="text-xs uppercase tracking-[3px] text-[#0066B1] font-semibold mb-8 cta-headline">
-          The Final Call
-        </p>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary border border-border rounded-full mb-8 cta-badge shadow-sm">
+          <div className="w-2 h-2 rounded-full bg-[#FFB4A2]" />
+          <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">The Final Step</span>
+        </div>
 
-        <h2 className="text-[64px] md:text-[96px] font-normal tracking-[-0.03em] text-white leading-[1] mb-10 cta-headline">
-          Your turn to <br className="hidden md:block" /> scale 10x faster.
+        <h2 className="text-[48px] md:text-[64px] font-semibold tracking-[-0.02em] text-foreground leading-[1.1] mb-8 cta-headline">
+          Ready to automate <br className="hidden md:block" /> your workflow?
         </h2>
 
-        <p className="text-2xl md:text-3xl text-muted-foreground font-light mb-16 max-w-2xl mx-auto leading-relaxed cta-copy">
+        <p className="text-xl md:text-2xl text-muted-foreground font-normal mb-12 max-w-xl mx-auto leading-relaxed cta-copy">
           Don't let the AI revolution pass you by. Join thousands of professionals future-proofing their careers today.
         </p>
 
-        <div className="flex flex-col items-center gap-8 cta-button">
+        <div className="flex flex-col items-center gap-6 cta-button">
           <Button 
             size="xl" 
-            className="w-full sm:w-auto px-16 bg-white text-black hover:bg-[#E8E8E8] text-lg font-medium" 
+            className="w-full sm:w-auto px-12 text-lg font-medium shadow-md hover:shadow-xl" 
             onClick={onRegisterClick}
           >
             <span>Join the Workshop — ₹99</span>
             <ArrowRight className="ml-3 h-5 w-5" />
           </Button>
 
-          <p className="text-sm text-muted-foreground font-light tracking-wide uppercase">
+          <p className="text-sm font-medium text-muted-foreground">
             100% Money Back Guarantee • No Questions Asked
           </p>
         </div>

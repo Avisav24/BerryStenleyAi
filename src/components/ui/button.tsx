@@ -5,24 +5,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-semibold uppercase tracking-[1.5px] ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 font-display",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-[15px] font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-none hover:scale-105",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md hover:-translate-y-0.5",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border text-foreground bg-transparent hover:bg-white hover:text-black",
+        outline: "border-2 border-border text-foreground bg-transparent hover:border-primary hover:bg-secondary",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground font-bold hover:scale-105",
+        hero: "bg-primary text-primary-foreground hover:shadow-lg hover:-translate-y-1",
       },
       size: {
-        default: "h-[52px] px-8 py-2",
+        default: "h-[48px] px-8 py-2",
         sm: "h-9 px-4 text-xs",
-        lg: "h-[60px] px-10 text-base",
-        xl: "h-[72px] px-12 text-lg",
-        icon: "h-[52px] w-[52px]",
+        lg: "h-[56px] px-10 text-[16px]",
+        xl: "h-[64px] px-12 text-[18px]",
+        icon: "h-[48px] w-[48px]",
       },
     },
     defaultVariants: {

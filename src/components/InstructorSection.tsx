@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Play } from "lucide-react";
+import { Play, Award, GraduationCap } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -35,28 +35,26 @@ const InstructorSection = () => {
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Parallax on the video container
-    gsap.to('.instructor-visual', {
-      yPercent: 15,
-      ease: "none",
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
+    gsap.fromTo('.instructor-card',
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 80%",
+        }
       }
-    });
+    );
 
-    // Fade in reasons
     const reasons = gsap.utils.toArray('.reason-item');
-    reasons.forEach((reason: any) => {
+    reasons.forEach((reason: any, i) => {
       gsap.fromTo(reason,
         { opacity: 0, x: 20 },
         {
-          opacity: 1, x: 0, duration: 0.8, ease: "power2.out",
+          opacity: 1, x: 0, duration: 0.5, ease: "power2.out",
           scrollTrigger: {
             trigger: reason,
-            start: "top 90%",
+            start: "top 95%",
           }
         }
       );
@@ -72,27 +70,43 @@ const InstructorSection = () => {
   };
 
   return (
-    <section ref={container} className="enterprise-section bg-background border-b border-border overflow-hidden">
+    <section ref={container} className="py-24 bg-[#F9F9F9] border-b border-border">
       <div className="enterprise-container">
         
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-8">
-          
-          {/* Instructor Profile (Left) */}
-          <div className="lg:col-span-5 relative">
-            <div className="sticky top-32">
-              <p className="text-xs uppercase tracking-widest text-[#0066B1] font-semibold mb-4">Chief AI Instructor</p>
-              <h2 className="text-[48px] md:text-[64px] font-normal tracking-tight text-white mb-6 leading-none">
-                Prof. (Dr) Brajesh Kumar
-              </h2>
-              <p className="text-xl text-muted-foreground font-light mb-12">
-                Bringing two decades of academic excellence and corporate implementation to this program.
-              </p>
+        <div className="text-center mb-16">
+          <h2 className="text-section-title tracking-tight text-foreground mb-4">
+            Learn From The Expert
+          </h2>
+          <p className="text-subheading text-muted-foreground">
+            Prof. (Dr) Brajesh Kumar
+          </p>
+        </div>
 
-              <div className="overflow-hidden bg-card border border-border aspect-[4/5] relative">
-                <div className="instructor-visual w-full h-[120%] -top-[10%] relative">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Column: Fixed Profile Card */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 instructor-card">
+            
+            <div className="bg-white rounded-[24px] border border-border shadow-[0_8px_32px_rgba(0,0,0,0.03)] overflow-hidden">
+              
+              {/* Profile Header */}
+              <div className="p-8 flex flex-col items-center justify-center text-center bg-[#F7F7F7] border-b border-border relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFD02F]/10 rounded-full translate-x-1/2 -translate-y-1/2" />
+                
+                <div className="w-24 h-24 rounded-full bg-white border border-border shadow-sm flex items-center justify-center mb-6 relative z-10">
+                  <GraduationCap className="h-10 w-10 text-foreground" />
+                </div>
+                <h3 className="font-semibold text-2xl text-foreground mb-1">Prof. (Dr) Brajesh Kumar</h3>
+                <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-4">Chief AI Instructor</p>
+                <p className="text-xs text-muted-foreground bg-white px-3 py-1 rounded-full border border-border">PhD, NET, MBA, M.Com, PG Diploma</p>
+              </div>
+
+              {/* Video Message */}
+              <div className="p-6">
+                <div className="aspect-video rounded-[12px] bg-secondary border border-border overflow-hidden relative shadow-sm">
                   <video
                     ref={videoRef}
-                    className="w-full h-full object-cover opacity-60 mix-blend-screen grayscale"
+                    className="w-full h-full object-cover"
                     playsInline
                     controls={isVideoPlaying}
                     controlsList="nodownload"
@@ -101,55 +115,63 @@ const InstructorSection = () => {
                   >
                     <source src="/videos/instructor-message.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                  
+                  {!isVideoPlaying && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/5 group hover:bg-black/10 transition-colors">
+                      <button
+                        onClick={handleVideoPlay}
+                        className="w-16 h-16 bg-white rounded-full flex items-center justify-center transition-transform hover:scale-105 shadow-md"
+                        aria-label="Play video message"
+                      >
+                        <Play className="h-6 w-6 text-black ml-1" fill="currentColor" />
+                      </button>
+                    </div>
+                  )}
                 </div>
-                
-                {!isVideoPlaying && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 group hover:bg-black/40 transition-colors">
-                    <button
-                      onClick={handleVideoPlay}
-                      className="w-20 h-20 bg-white flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
-                      aria-label="Play video message"
-                    >
-                      <Play className="h-8 w-8 text-black ml-1" fill="currentColor" />
-                    </button>
-                  </div>
-                )}
               </div>
+
             </div>
           </div>
 
-          {/* Credentials List (Right) */}
-          <div className="lg:col-span-6 lg:col-start-7 pt-8 lg:pt-0">
-            <div className="mb-12 border-b border-border pb-6">
-              <h3 className="text-3xl font-light text-white">
-                Why this matters for your career.
-              </h3>
-            </div>
-            
-            <div className="flex flex-col gap-12">
-              {compellingReasons.map((reason) => (
-                <div key={reason.num} className="reason-item flex gap-6">
-                  <div className="text-[#1C69D4] font-mono text-sm tracking-widest pt-1">
-                    {reason.num.toString().padStart(2, '0')}
-                  </div>
-                  <div>
-                    <h4 className="text-2xl font-light text-white mb-3">
-                      {reason.heading}
-                    </h4>
-                    <p className="text-lg text-muted-foreground font-light">
-                      {reason.text}
-                    </p>
-                  </div>
+          {/* Right Column: Scrolling Credentials */}
+          <div className="lg:col-span-7 pt-4">
+            <div className="bg-white rounded-[24px] border border-border p-8 md:p-10 shadow-sm">
+              
+              <div className="flex items-center gap-3 mb-10 pb-6 border-b border-border">
+                <div className="w-10 h-10 rounded-full bg-[#B8F2E6]/20 flex items-center justify-center">
+                  <Award className="h-5 w-5 text-[#00A380]" />
                 </div>
-              ))}
+                <h3 className="text-2xl font-semibold text-foreground">
+                  20 Reasons To Learn From Dr. Kumar
+                </h3>
+              </div>
+              
+              <div className="flex flex-col gap-6">
+                {compellingReasons.map((reason) => (
+                  <div key={reason.num} className="reason-item flex gap-6 items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#F7F7F7] border border-border flex items-center justify-center mt-1">
+                      <span className="text-xs font-bold text-muted-foreground">{reason.num}</span>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-foreground mb-1">
+                        {reason.heading}
+                      </h4>
+                      <p className="text-base text-muted-foreground leading-relaxed">
+                        {reason.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
             </div>
 
-            <div className="mt-20 p-10 border border-border bg-card">
-              <p className="text-xl text-white font-light leading-relaxed">
-                "Learning AI from a generic instructor means learning how to use software tools. Learning AI from <strong className="font-normal text-[#1C69D4]">Dr. Kumar</strong> means transforming your methodology and career trajectory."
+            <div className="mt-8 p-8 rounded-[16px] bg-[#FFD02F]/10 border border-[#FFD02F]/20">
+              <p className="text-lg text-foreground font-medium leading-relaxed">
+                "Learning AI from a generic instructor means learning how to use software tools. Learning AI from Prof. (Dr) Brajesh Kumar means transforming your methodology and professional future."
               </p>
             </div>
+
           </div>
 
         </div>
